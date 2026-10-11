@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const code=readFileSync(new URL('../js/combat.js',import.meta.url),'utf8');
+const {Combat}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+const audio={tone(){},impact(){}};const combat=new Combat();
+const player={x:100,y:100,dir:1};const target=combat.enemies[0];Object.assign(target,{x:125,y:100,hp:6,maxHp:6,type:'shade'});
+assert.equal(combat.attack(player,true,audio),true);assert.equal(target.hp,5);assert.equal(combat.combo,1);
+assert.equal(combat.attack(player,true,audio),false,'cooldown prohibits repeated hits');
+combat.update(.25,player,false,()=>false,audio);
+assert.equal(combat.attack(player,true,audio),true);assert.equal(target.hp,4);assert.equal(combat.combo,2);
+combat.update(.25,player,false,()=>false,audio);
+assert.equal(combat.attack(player,true,audio),true);assert.equal(target.hp,2,'third strike deals two');assert.equal(combat.combo,3);
+combat.update(.8,player,false,()=>false,audio);assert.equal(combat.combo,0,'combo expires');
+assert.equal(combat.roll(true),true);assert.equal(combat.roll(true),false,'dodge cooldown applies');assert.equal(combat.attack(player,true,audio),false,'cannot attack during dodge');
+combat.update(.85,player,false,()=>false,audio);assert.equal(combat.roll(true),true,'dodge becomes available again');
+combat.reset();assert.equal(combat.combo,0);assert.equal(combat.hp,5);
+console.log('PASS DE-3A: combo x3, reach/damage, input cooldown, dodge, combo timeout, reset');

@@ -1,0 +1,10 @@
+EIDOLON 404 — ENV4.2
+
+WINDOWS: descomprime y abre INICIAR-WINDOWS.bat.
+LINUX MINT: abre terminal en esta carpeta y ejecuta bash INICIAR-LINUX.sh.
+Requiere Python 3 y navegador. No abras index.html directamente.
+Direccion estable: http://127.0.0.1:8404/
+Mantén abierta la terminal; Ctrl+C para cerrar.
+Si el puerto está ocupado, cierra el otro servidor. No se elige otro puerto automáticamente.
+Las partidas antiguas de otros puertos no se migran solas: consulta README.md.
+Para GitHub Pages no necesitas el servidor Python: consulta docs/GITHUB.md.
